@@ -9,9 +9,7 @@ void setup() {
         delay(500);
         Serial.print(".");
     }
-    Serial.println("");
     Serial.println("WiFi connected");
-
 
     xiaozhi_init();
 }
@@ -19,19 +17,23 @@ void setup() {
 void loop() {
     xiaozhi_loop();
 
-    // 检测是否听到问题
-    if (xiaozhi_listen()) {
-        String question = xiaozhi_question();
-        Serial.print("XIAOZHI QUESTION: "); // 打印问题
-        Serial.println(question);
+    // check if there is a new question
+    if (xiaozhi_listen()) 
+    {
+        // get the question text
+        String question_text = xiaozhi_question();
+        Serial.println(question_text);
     }
 
-    // 检测是否合成答案音频
-    if (xiaozhi_speak()) {
-        String answer_url = xiaozhi_answer();
-        Serial.print("XIAOZHI ANSWER URL: ");
-        Serial.println(answer_url);         // 打印答案URL
+    // check if there is a new answer
+    if (xiaozhi_speak()) 
+    {
+        // get the answer text 
+        String answer_text = xiaozhi_answer(0);
+        Serial.println(answer_text);
 
-        // play_from_url(answer_url); 
+        // get the answer url for audio
+        String answer_url = xiaozhi_answer(1);
+        Serial.println(answer_url);
     }
 }
