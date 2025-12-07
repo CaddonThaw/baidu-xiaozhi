@@ -1,5 +1,5 @@
-#ifndef XIAOZHI_H
-#define XIAOZHI_H
+#ifndef XIAOZHI_AI_H
+#define XIAOZHI_AI_H
 
 #include <Arduino.h>
 #include "xiaozhi_minimax.h"
@@ -68,7 +68,8 @@ String xiaozhi_question();
 // 如果当前已经获得答案并完成 TTS，返回 true
 bool xiaozhi_speak();
 
-// 返回答案音频的 URL（百度语音合成 host），读取后内部标志会清零
-String xiaozhi_answer();
+// 0返回答案文本
+// 1返回答案音频的 URL（百度语音合成 host），读取后内部标志会清零
+String xiaozhi_answer(bool mode);
 
 #endif // XIAOZHI_H

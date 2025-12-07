@@ -2,17 +2,17 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-String url = "https://api.minimax.chat/v1/text/chatcompletion_v2";
-
 String minimax_answer(String question)
 {
+    String url = "https://api.minimax.chat/v1/text/chatcompletion_v2";
+
     HTTPClient http;
     http.setTimeout(20000);
     http.begin(url);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("Authorization", MiniMaxKey);
 
-    String data = "{\"model\":\"abab5.5s-chat\",\"messages\":[{\"role\": \"system\",\"content\": \"你叫小智,要求下面的回答严格控制在256字符以内.\"},{\"role\": \"user\",\"content\": \"" + question + "\"}]}";
+    String data = "{\"model\":\"abab5.5s-chat\",\"messages\":[{\"role\": \"system\",\"content\": \"你叫小智,要求下面的回答严格控制在20个汉字以内.\"},{\"role\": \"user\",\"content\": \"" + question + "\"}]}";
     int httpResponseCode = http.POST(data);
 
     if (httpResponseCode == 200)

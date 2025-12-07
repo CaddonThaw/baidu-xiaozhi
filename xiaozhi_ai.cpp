@@ -121,12 +121,19 @@ bool xiaozhi_speak()
     return xiaozhi_have_answer;
 }
 
-String xiaozhi_answer()
+String xiaozhi_answer(bool mode)
 {
-    String url = xiaozhi_answer_host;
-    // 被读取一次后清空标记，等待下一轮
-    xiaozhi_have_answer = false;
-    return url;
+    if (!mode)
+    {
+        return xiaozhi_answer_text;
+    }   
+    else
+    {
+        String url = xiaozhi_answer_host;
+        // 被读取一次后清空标记，等待下一轮
+        xiaozhi_have_answer = false;
+        return url;
+    }
 }
 
 // ===================== 内部实现 =====================
@@ -214,9 +221,9 @@ static void xiaozhi_start_asr()
     }
 
     xiaozhi_ws_state = 1;
-    xiaozhi_current_text = "";
-    xiaozhi_question_text = "";
-    xiaozhi_have_question = false;
+    // xiaozhi_current_text = "";
+    // xiaozhi_question_text = "";
+    // xiaozhi_have_question = false;
 }
 
 static void xiaozhi_stop_asr()
