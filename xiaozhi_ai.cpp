@@ -143,6 +143,33 @@ static void xiaozhi_init_i2s()
     static bool inited = false; // I2S 是否已完成初始化
     if (inited) return;
 
+#if I2S_PDM
+    // PDM 麦克风配置
+    i2s_config_t i2s_config =
+    {
+        .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM),
+        .sample_rate = I2S_SAMPLE_RATE,
+        .bits_per_sample = i2s_bits_per_sample_t(I2S_SAMPLE_BITS),
+        .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
+        .communication_format = I2S_COMM_FORMAT_STAND_I2S,
+        .intr_alloc_flags = 0,
+        .dma_buf_count = 16,
+        .dma_buf_len = 60,
+    };
+
+    i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
+
+    const i2s_pin_config_t pin_config =
+    {
+        .bck_io_num = I2S_PIN_NO_CHANGE,
+        .ws_io_num = I2S_PDM_CLK,
+        .data_out_num = I2S_PIN_NO_CHANGE,
+        .data_in_num = I2S_PDM_DAT
+    };
+
+    i2s_set_pin(I2S_PORT, &pin_config);
+#else
+    // I2S 数字麦克风配置（默认）
     i2s_config_t i2s_config =
     {
         .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
@@ -166,6 +193,7 @@ static void xiaozhi_init_i2s()
     };
 
     i2s_set_pin(I2S_PORT, &pin_config);
+#endif
 
     inited = true;
 }

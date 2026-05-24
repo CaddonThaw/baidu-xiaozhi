@@ -21,6 +21,12 @@
 #define BAIDU_SECRET_KEY  "SECRET KEY" // 默认百度语音 SECRET KEY
 #endif
 
+// PDM 麦克风配置开关：0 使用 I2S 数字麦克风，1 使用 PDM 麦克风
+#ifndef I2S_PDM
+#define I2S_PDM           0
+#endif
+
+#if !I2S_PDM
 // I2S 引脚和参数，如果你的硬件不同，可在包含本头文件前重新 #define 覆盖
 #ifndef I2S_WS
 #define I2S_WS           13  // 默认 I2S LRCLK 引脚
@@ -32,6 +38,18 @@
 
 #ifndef I2S_SCK
 #define I2S_SCK          11  // 默认 I2S BCLK 引脚
+#endif
+#endif
+
+#if I2S_PDM
+// PDM 麦克风引脚定义
+#ifndef I2S_PDM_CLK
+#define I2S_PDM_CLK      38  // PDM CLK 引脚
+#endif
+
+#ifndef I2S_PDM_DAT
+#define I2S_PDM_DAT      39  // PDM DATA 引脚
+#endif
 #endif
 
 #ifndef I2S_PORT
